@@ -1,5 +1,7 @@
 # FP8 Multiply-Accumulate (MAC) Unit in VHDL for AI Inference
 
+[![VHDL tests](https://github.com/Amine552135/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml/badge.svg)](https://github.com/Amine552135/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml)
+
 Hardware **multiply-accumulate** operator in the **FP8 E4M3** floating-point format (1 sign bit, 4 exponent bits, 3 mantissa bits, bias 7), written in VHDL, synthesized with Intel Quartus Prime and verified in simulation with Questa.
 
 > Individual project — Master 1 CSEC (Communicating Electronic Systems Design), University of Lorraine, France, 2026.
@@ -50,20 +52,24 @@ A complete MAC operator fits in about 6 % of a small entry-level FPGA, which is 
 ## Repository structure
 
 ```
-src/    VHDL source (package + 5 modules)
-tb/     testbenches (decoder, multiplier, adder/subtractor, MAC)
-docs/   full report (PDF, in French), diagrams, RTL view, waveform, Flow Summary
+src/      VHDL source (package + 5 modules)
+tb/       self-checking testbenches (decoder, multiplier, adder/subtractor, MAC)
+quartus/  Quartus Prime project files (.qpf, .qsf)
+.github/  CI workflow: runs all testbenches with GHDL on every push
+docs/     full report (PDF, in French), diagrams, RTL view, waveform, Flow Summary
 ```
 
 ## Running the simulation
 
-**With Questa / ModelSim**: compile `src/fp8_pkg.vhd` first, then the other files in `src/`, then the desired testbench in `tb/`, and simulate `tb_fp8_mac`.
+All testbenches are **self-checking**: each one compares the outputs with the expected values, prints `ECHEC` (failure) with the obtained and expected values if a result is wrong, and stops with an error code. They run automatically with GHDL on every push (GitHub Actions, see `.github/workflows/vhdl-tests.yml`).
+
+**With Questa / ModelSim**: compile `src/fp8_pkg.vhd` first, then the other files in `src/`, then the desired testbench in `tb/`, and run it (`run -all`).
 
 **With GHDL (free)**:
 ```bash
 ghdl -a --std=08 src/fp8_pkg.vhd src/fp8_decoder.vhd src/fp8_acc.vhd src/fp8_mult.vhd src/fp8_addsub.vhd src/fp8_mac.vhd tb/tb_fp8_mac.vhd
 ghdl -e --std=08 tb_fp8_mac
-ghdl -r --std=08 tb_fp8_mac --stop-time=200ns --wave=mac.ghw
+ghdl -r --std=08 tb_fp8_mac --assert-level=error
 ```
 
 ## Limitations and possible improvements
