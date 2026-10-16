@@ -1,6 +1,6 @@
 # FP8 Multiply-Accumulate (MAC) Unit in VHDL for AI Inference
 
-[![VHDL tests](https://github.com/Amine552135/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml/badge.svg)](https://github.com/Amine552135/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml)
+[![VHDL tests](https://github.com/amine-belkacem/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml/badge.svg)](https://github.com/amine-belkacem/fp8-mac-vhdl/actions/workflows/vhdl-tests.yml)
 
 Hardware **multiply-accumulate** operator in the **FP8 E4M3** floating-point format (1 sign bit, 4 exponent bits, 3 mantissa bits, bias 7), written in VHDL, synthesized with Intel Quartus Prime and verified in simulation with Questa.
 
@@ -82,4 +82,4 @@ ghdl -r --std=08 tb_fp8_mac --assert-level=error
 ## Author
 
 **Mohamed Amine BELKACEM** — Master 2 CSEC, University of Lorraine
-[LinkedIn](https://www.linkedin.com/in/mohamed-amine-belkacem-262582391/) · [GitHub](https://github.com/Amine552135)
+[LinkedIn](https://www.linkedin.com/in/mohamed-amine-belkacem-262582391/) · [GitHub](https://github.com/amine-belkacem)
