@@ -1,0 +1,30 @@
+name: VHDL tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install GHDL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghdl
+          ghdl --version
+
+      - name: Run self-checking testbenches
+        run: |
+          set -e
+          SRC="src/fp8_pkg.vhd src/fp8_decoder.vhd src/fp8_acc.vhd src/fp8_mult.vhd src/fp8_addsub.vhd src/fp8_mac.vhd"
+          for TB in tb_fp8_decoder tb_fp8_mult tb_fp8_addsub tb_fp8_mac; do
+            echo "=== $TB ==="
+            ghdl -a --std=08 $SRC tb/$TB.vhd
+            ghdl -e --std=08 $TB
+            ghdl -r --std=08 $TB --assert-level=error --ieee-asserts=disable-at-0
+          done
