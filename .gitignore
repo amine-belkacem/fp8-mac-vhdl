@@ -1,0 +1,10 @@
+# Fichiers generes par Quartus / Questa / GHDL
+db/
+incremental_db/
+output_files/
+work/
+simulation/
+*.cf
+*.ghw
+*.wlf
+transcript
